@@ -20,6 +20,16 @@ export interface CreatePipelineStagePayload {
   name: string
   position: number
   color?: string | null
+  description?: string | null
+}
+
+export interface UpdatePipelineStagePayload {
+  pipelineId: string
+  stageId: string
+  name?: string
+  position?: number
+  color?: string | null
+  description?: string | null
 }
 
 export async function getPipelines(): Promise<Pipeline[]> {
@@ -40,5 +50,15 @@ export async function getPipelineStages(pipelineId: string): Promise<PipelineSta
 export async function createPipelineStage(payload: CreatePipelineStagePayload): Promise<PipelineStage> {
   const { pipelineId, ...body } = payload
   const response = await api.post<ApiEntityResponse<PipelineStage>>(`/pipelines/${pipelineId}/stages`, body)
+  return response.data.data
+}
+
+export async function updatePipelineStage(payload: UpdatePipelineStagePayload): Promise<PipelineStage> {
+  const { pipelineId, stageId, ...body } = payload
+  const response = await api.put<ApiEntityResponse<PipelineStage>>(
+    `/pipelines/${pipelineId}/stages/${stageId}`,
+    body,
+  )
+
   return response.data.data
 }

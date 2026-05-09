@@ -45,7 +45,6 @@ function AppLayout() {
           <div className="mb-8 space-y-2">
             <p className="text-xs font-semibold uppercase tracking-[0.3em] text-coral">Virtualizze</p>
             <h1 className="text-2xl font-bold tracking-tight">CRM Workspace</h1>
-            <p className="text-sm leading-6 text-ink/65">Base inicial para CRM visual, atendimento WhatsApp e operação multi-tenant.</p>
           </div>
 
           <nav className="space-y-2">

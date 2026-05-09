@@ -14,6 +14,17 @@ interface CreatePipelineStageInput {
   name: string
   position: number
   color?: string | null
+  description?: string | null
+}
+
+interface UpdatePipelineStageInput {
+  organization_id: string
+  pipeline_id: string
+  stage_id: string
+  name?: string
+  position?: number
+  color?: string | null
+  description?: string | null
 }
 
 export async function listPipelines(organization_id: string): Promise<Pipeline[]> {
@@ -72,6 +83,7 @@ export async function createPipelineStage(input: CreatePipelineStageInput): Prom
       name: input.name,
       position: input.position,
       color: input.color ?? null,
+      description: input.description ?? null,
     })
     .select('*')
     .single()
@@ -81,4 +93,44 @@ export async function createPipelineStage(input: CreatePipelineStageInput): Prom
   }
 
   return data as PipelineStage
+}
+
+export async function updatePipelineStage(input: UpdatePipelineStageInput): Promise<PipelineStage | null> {
+  const payload: {
+    name?: string
+    position?: number
+    color?: string | null
+    description?: string | null
+  } = {}
+
+  if (typeof input.name !== 'undefined') {
+    payload.name = input.name
+  }
+
+  if (typeof input.position !== 'undefined') {
+    payload.position = input.position
+  }
+
+  if (typeof input.color !== 'undefined') {
+    payload.color = input.color
+  }
+
+  if (typeof input.description !== 'undefined') {
+    payload.description = input.description
+  }
+
+  const { data, error } = await supabase
+    .from('pipeline_stages')
+    .update(payload)
+    .eq('organization_id', input.organization_id)
+    .eq('pipeline_id', input.pipeline_id)
+    .eq('id', input.stage_id)
+    .select('*')
+    .maybeSingle()
+
+  if (error) {
+    throw new Error(error.message)
+  }
+
+  return (data as PipelineStage | null) ?? null
 }

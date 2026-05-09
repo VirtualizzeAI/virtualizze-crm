@@ -73,6 +73,7 @@ export interface PipelineStage extends BaseEntity {
   name: string
   position: number
   color: string | null
+  description: string | null
 }
 
 export interface Deal extends BaseEntity {

@@ -1,7 +1,17 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 
-import { createPipeline, createPipelineStage, getPipelines, getPipelineStages } from '../api/pipelines'
-import type { CreatePipelinePayload, CreatePipelineStagePayload } from '../api/pipelines'
+import {
+  createPipeline,
+  createPipelineStage,
+  getPipelines,
+  getPipelineStages,
+  updatePipelineStage,
+} from '../api/pipelines'
+import type {
+  CreatePipelinePayload,
+  CreatePipelineStagePayload,
+  UpdatePipelineStagePayload,
+} from '../api/pipelines'
 
 export function usePipelinesQuery() {
   return useQuery({
@@ -35,6 +45,20 @@ export function useCreatePipelineStageMutation(pipelineId: string | null) {
   return useMutation({
     mutationFn: (payload: Omit<CreatePipelineStagePayload, 'pipelineId'>) =>
       createPipelineStage({ pipelineId: pipelineId as string, ...payload }),
+    onSuccess: async () => {
+      if (pipelineId) {
+        await queryClient.invalidateQueries({ queryKey: ['pipelines', pipelineId, 'stages'] })
+      }
+    },
+  })
+}
+
+export function useUpdatePipelineStageMutation(pipelineId: string | null) {
+  const queryClient = useQueryClient()
+
+  return useMutation({
+    mutationFn: (payload: Omit<UpdatePipelineStagePayload, 'pipelineId'>) =>
+      updatePipelineStage({ pipelineId: pipelineId as string, ...payload }),
     onSuccess: async () => {
       if (pipelineId) {
         await queryClient.invalidateQueries({ queryKey: ['pipelines', pipelineId, 'stages'] })

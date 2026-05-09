@@ -1,7 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 
-import { createDeal, getDeals, moveDeal } from '../api/deals'
-import type { CreateDealPayload, MoveDealPayload } from '../api/deals'
+import { createDeal, getDeals, moveDeal, updateDeal } from '../api/deals'
+import type { CreateDealPayload, MoveDealPayload, UpdateDealPayload } from '../api/deals'
 
 export function useDealsQuery(pipelineId: string | null) {
   return useQuery({
@@ -30,6 +30,19 @@ export function useMoveDealMutation(pipelineId: string | null) {
 
   return useMutation({
     mutationFn: (payload: MoveDealPayload) => moveDeal(payload),
+    onSuccess: async () => {
+      if (pipelineId) {
+        await queryClient.invalidateQueries({ queryKey: ['deals', pipelineId] })
+      }
+    },
+  })
+}
+
+export function useUpdateDealMutation(pipelineId: string | null) {
+  const queryClient = useQueryClient()
+
+  return useMutation({
+    mutationFn: (payload: UpdateDealPayload) => updateDeal(payload),
     onSuccess: async () => {
       if (pipelineId) {
         await queryClient.invalidateQueries({ queryKey: ['deals', pipelineId] })

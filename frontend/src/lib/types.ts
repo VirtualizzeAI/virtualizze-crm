@@ -73,6 +73,7 @@ export interface PipelineStage {
   name: string
   position: number
   color: string | null
+  description: string | null
   created_at: string
 }
 

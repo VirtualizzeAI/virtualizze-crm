@@ -24,6 +24,15 @@ export interface MoveDealPayload {
   position: number
 }
 
+export interface UpdateDealPayload {
+  id: string
+  stage_id?: string
+  name?: string
+  value?: number
+  description?: string | null
+  status?: Deal['status']
+}
+
 export async function getDeals(pipelineId: string): Promise<Deal[]> {
   const response = await api.get<ApiListResponse<Deal>>('/deals', {
     params: { pipeline_id: pipelineId },
@@ -41,5 +50,17 @@ export async function moveDeal(payload: MoveDealPayload): Promise<Deal> {
     stage_id: payload.stage_id,
     position: payload.position,
   })
+  return response.data.data
+}
+
+export async function updateDeal(payload: UpdateDealPayload): Promise<Deal> {
+  const response = await api.patch<ApiEntityResponse<Deal>>(`/deals/${payload.id}`, {
+    stage_id: payload.stage_id,
+    name: payload.name,
+    value: payload.value,
+    description: payload.description,
+    status: payload.status,
+  })
+
   return response.data.data
 }
