@@ -302,7 +302,14 @@ export function KanbanBoard({
       </DndContext>
 
       {selectedDeal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4 backdrop-blur-[2px]">
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4 backdrop-blur-[2px]"
+          onMouseDown={(event) => {
+            if (event.target === event.currentTarget) {
+              setSelectedDealId(null)
+            }
+          }}
+        >
           <div className="w-full max-w-2xl rounded-xl border border-black/10 bg-white p-5 shadow-2xl">
             <div className="mb-4 flex items-center justify-between">
               <h3 className="text-base font-bold text-ink">Detalhes do Negócio</h3>
@@ -416,7 +423,14 @@ export function KanbanBoard({
       )}
 
       {selectedStage && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4 backdrop-blur-[2px]">
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4 backdrop-blur-[2px]"
+          onMouseDown={(event) => {
+            if (event.target === event.currentTarget) {
+              setSelectedStageId(null)
+            }
+          }}
+        >
           <div className="w-full max-w-md rounded-xl border border-black/10 bg-white p-5 shadow-2xl">
             <div className="mb-4 flex items-center justify-between">
               <h3 className="text-base font-bold text-ink">Configurar etapa</h3>

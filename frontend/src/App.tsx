@@ -42,7 +42,7 @@ function AppLayout() {
     <div className="app-grid min-h-screen bg-transparent text-ink">
       <div className="mx-auto grid min-h-screen w-full max-w-7xl gap-6 px-4 py-6 lg:grid-cols-[260px_minmax(0,1fr)]">
         <aside className="rounded-xl border border-black/10 bg-white/70 p-5 shadow-panel backdrop-blur">
-          <div className="mb-8 space-y-2">
+          <div className="mb-3 space-y-2">
             <p className="text-xs font-semibold uppercase tracking-[0.3em] text-coral">Virtualizze</p>
             <h1 className="text-2xl font-bold tracking-tight">CRM Workspace</h1>
           </div>

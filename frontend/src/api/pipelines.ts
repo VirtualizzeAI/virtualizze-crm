@@ -15,6 +15,12 @@ export interface CreatePipelinePayload {
   description?: string | null
 }
 
+export interface UpdatePipelinePayload {
+  pipelineId: string
+  name?: string
+  description?: string | null
+}
+
 export interface CreatePipelineStagePayload {
   pipelineId: string
   name: string
@@ -42,6 +48,12 @@ export async function createPipeline(payload: CreatePipelinePayload): Promise<Pi
   return response.data.data
 }
 
+export async function updatePipeline(payload: UpdatePipelinePayload): Promise<Pipeline> {
+  const { pipelineId, ...body } = payload
+  const response = await api.put<ApiEntityResponse<Pipeline>>(`/pipelines/${pipelineId}`, body)
+  return response.data.data
+}
+
 export async function getPipelineStages(pipelineId: string): Promise<PipelineStage[]> {
   const response = await api.get<ApiListResponse<PipelineStage>>(`/pipelines/${pipelineId}/stages`)
   return response.data.data
@@ -61,4 +73,20 @@ export async function updatePipelineStage(payload: UpdatePipelineStagePayload): 
   )
 
   return response.data.data
+}
+
+export interface DeletePipelineStagePayload {
+  pipelineId: string
+  stageId: string
+  transferToStageId?: string
+}
+
+export async function deletePipelineStage(payload: DeletePipelineStagePayload): Promise<void> {
+  await api.delete(`/pipelines/${payload.pipelineId}/stages/${payload.stageId}`, {
+    data: payload.transferToStageId ? { transfer_to_stage_id: payload.transferToStageId } : {},
+  })
+}
+
+export async function deletePipeline(pipelineId: string): Promise<void> {
+  await api.delete(`/pipelines/${pipelineId}`)
 }
