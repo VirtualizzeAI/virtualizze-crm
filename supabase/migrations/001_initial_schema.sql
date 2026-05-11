@@ -258,7 +258,6 @@ create index pipelines_organization_id_idx on public.pipelines (organization_id,
 create index pipeline_stages_pipeline_id_idx on public.pipeline_stages (pipeline_id, position);
 create index pipeline_stages_organization_id_idx on public.pipeline_stages (organization_id);
 create index contacts_organization_id_idx on public.contacts (organization_id);
-create unique index contacts_org_phone_key on public.contacts (organization_id, phone) where phone is not null;
 create index contacts_assigned_user_id_idx on public.contacts (organization_id, assigned_user_id);
 create index contacts_assigned_team_id_idx on public.contacts (organization_id, assigned_team_id);
 create index contacts_tags_idx on public.contacts using gin (tags);

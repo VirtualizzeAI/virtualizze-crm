@@ -1,4 +1,5 @@
 export * from './auth'
+export * from './contacts'
 export * from './deals'
 export * from './pipelines'
 export * from './teams'

@@ -9,6 +9,7 @@ export type WhatsAppInstanceStatus = 'connected' | 'disconnected' | 'qr_pending'
 export type ConversationStatus = 'open' | 'pending' | 'resolved'
 export type MessageType = 'text' | 'image' | 'audio' | 'video' | 'document' | 'sticker'
 export type MessageStatus = 'sent' | 'delivered' | 'read' | 'failed'
+export type ContactCreatedByType = 'user' | 'automation'
 
 export interface BaseEntity {
   id: string
@@ -50,16 +51,85 @@ export interface Contact extends BaseEntity {
   email: string | null
   description: string | null
   street: string | null
+  street_number: string | null
   neighborhood: string | null
   city: string | null
   state: string | null
   zip_code: string | null
   country: string | null
   complement: string | null
+  reference: string | null
   assigned_user_id: string | null
   assigned_team_id: string | null
+  created_by_type: ContactCreatedByType
+  created_by_user_id: string | null
   tags: string[]
   updated_at: string
+}
+
+export interface ContactCustomField extends BaseEntity {
+  contact_id: string
+  field_key: string
+  field_value: string | null
+}
+
+export interface ContactNote extends BaseEntity {
+  contact_id: string
+  title: string
+  content: string
+  attachment_url: string | null
+  created_by_type: ContactCreatedByType
+  created_by_user_id: string | null
+}
+
+export interface ContactAttachment extends BaseEntity {
+  contact_id: string
+  note_id: string | null
+  file_name: string
+  file_url: string
+  source: 'standalone' | 'note'
+  uploaded_by_user_id: string | null
+}
+
+export interface ContactTimelineEvent extends BaseEntity {
+  contact_id: string
+  event_type: 'contact_created' | 'contact_updated' | 'note_created' | 'attachment_added' | 'custom_field_updated'
+  description: string
+  actor_type: ContactCreatedByType
+  actor_user_id: string | null
+  metadata: Record<string, string | number | boolean | null>
+}
+
+export interface ContactDealSummary {
+  id: string
+  name: string
+  stage_id: string
+  status: DealStatus
+  value: number
+  created_at: string
+}
+
+export interface ContactProductHistoryItem {
+  deal_id: string
+  deal_name: string
+  product_id: string
+  product_name: string
+  unit: string | null
+  quantity: number
+  unit_price: number
+  discount: number
+  subtotal: number
+  created_at: string
+}
+
+export interface ContactDetails {
+  contact: Contact
+  custom_fields: ContactCustomField[]
+  notes: ContactNote[]
+  attachments: ContactAttachment[]
+  timeline: ContactTimelineEvent[]
+  linked_deals: ContactDealSummary[]
+  product_history: ContactProductHistoryItem[]
 }
 
 export interface Pipeline extends BaseEntity {

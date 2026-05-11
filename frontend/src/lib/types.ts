@@ -91,6 +91,109 @@ export interface Deal {
   created_at: string
 }
 
+export type ContactType = 'PF' | 'PJ'
+export type ContactCreatedByType = 'user' | 'automation'
+
+export interface Contact {
+  id: string
+  organization_id: string
+  type: ContactType | null
+  name: string
+  phone: string | null
+  email: string | null
+  description: string | null
+  street: string | null
+  street_number: string | null
+  neighborhood: string | null
+  city: string | null
+  state: string | null
+  country: string | null
+  complement: string | null
+  reference: string | null
+  assigned_user_id: string | null
+  created_by_type: ContactCreatedByType
+  created_by_user_id: string | null
+  created_at: string
+  updated_at: string
+}
+
+export interface ContactCustomField {
+  id: string
+  organization_id: string
+  contact_id: string
+  field_key: string
+  field_value: string | null
+  created_at: string
+}
+
+export interface ContactNote {
+  id: string
+  organization_id: string
+  contact_id: string
+  title: string
+  content: string
+  attachment_url: string | null
+  created_by_type: ContactCreatedByType
+  created_by_user_id: string | null
+  created_at: string
+}
+
+export interface ContactAttachment {
+  id: string
+  organization_id: string
+  contact_id: string
+  note_id: string | null
+  file_name: string
+  file_url: string
+  source: 'standalone' | 'note'
+  uploaded_by_user_id: string | null
+  created_at: string
+}
+
+export interface ContactTimelineEvent {
+  id: string
+  organization_id: string
+  contact_id: string
+  event_type: 'contact_created' | 'contact_updated' | 'note_created' | 'attachment_added' | 'custom_field_updated'
+  description: string
+  actor_type: ContactCreatedByType
+  actor_user_id: string | null
+  metadata: Record<string, string | number | boolean | null>
+  created_at: string
+}
+
+export interface ContactDealSummary {
+  id: string
+  name: string
+  stage_id: string
+  status: Deal['status']
+  value: number
+  created_at: string
+}
+
+export interface ContactProductHistoryItem {
+  deal_id: string
+  deal_name: string
+  product_id: string
+  product_name: string
+  unit: string | null
+  quantity: number
+  unit_price: number
+  discount: number
+  subtotal: number
+  created_at: string
+}
+
+export interface ContactDetails {
+  contact: Contact
+  custom_fields: ContactCustomField[]
+  notes: ContactNote[]
+  attachments: ContactAttachment[]
+  timeline: ContactTimelineEvent[]
+  linked_deals: ContactDealSummary[]
+  product_history: ContactProductHistoryItem[]
+}
+
 export interface ChatConversation {
   id: string
   contact_id: string
