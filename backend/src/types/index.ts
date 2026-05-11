@@ -177,6 +177,7 @@ export interface Task extends BaseEntity {
   contact_id: string | null
   deal_id: string | null
   due_date: string | null
+  attachment_urls: string[]
 }
 
 export interface Product extends BaseEntity {

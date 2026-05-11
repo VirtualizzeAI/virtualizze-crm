@@ -20,6 +20,7 @@ import type { Contact, ContactType } from '../lib/types'
 const CUSTOM_FIELDS_STORAGE_KEY = 'contacts:custom-field-definitions'
 
 export default function ContactsPage() {
+  const [searchInput, setSearchInput] = useState('')
   const [search, setSearch] = useState('')
   const [showFilters, setShowFilters] = useState(false)
   const [showCreateModal, setShowCreateModal] = useState(false)
@@ -62,6 +63,16 @@ export default function ContactsPage() {
 
     window.localStorage.setItem(CUSTOM_FIELDS_STORAGE_KEY, JSON.stringify(customFieldDefinitions))
   }, [customFieldDefinitions])
+
+  useEffect(() => {
+    const timeoutId = window.setTimeout(() => {
+      setSearch(searchInput)
+    }, 350)
+
+    return () => {
+      window.clearTimeout(timeoutId)
+    }
+  }, [searchInput])
 
   const contactsQueryParams = useMemo(
     () => ({
@@ -226,7 +237,7 @@ export default function ContactsPage() {
     setCustomFieldDefinitions((current) => current.filter((item) => item !== fieldName))
   }
 
-  if (contactsQuery.isLoading || usersQuery.isLoading) {
+  if ((!contactsQuery.data && contactsQuery.isLoading) || (!usersQuery.data && usersQuery.isLoading)) {
     return (
       <section className="rounded-xl border border-black/10 bg-white/85 p-8 shadow-panel">
         <p className="text-sm text-ink/70">Carregando contatos...</p>
@@ -267,8 +278,8 @@ export default function ContactsPage() {
             <span className="relative block">
               <Search className="pointer-events-none absolute left-3 top-2.5 h-4 w-4 text-ink/45" />
               <input
-                value={search}
-                onChange={(event) => setSearch(event.target.value)}
+                value={searchInput}
+                onChange={(event) => setSearchInput(event.target.value)}
                 placeholder="Pesquisar contatos"
                 className="w-full rounded-lg border border-black/10 bg-white py-2 pl-9 pr-3 text-sm text-ink outline-none focus:border-pine"
               />

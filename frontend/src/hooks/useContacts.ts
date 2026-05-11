@@ -1,4 +1,4 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { keepPreviousData, useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 
 import {
   createContact,
@@ -23,6 +23,8 @@ export function useContactsQuery(params?: GetContactsParams) {
   return useQuery({
     queryKey: ['contacts', params ?? {}],
     queryFn: () => getContacts(params),
+    placeholderData: keepPreviousData,
+    staleTime: 10_000,
   })
 }
 

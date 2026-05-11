@@ -91,6 +91,35 @@ export interface Deal {
   created_at: string
 }
 
+export type TaskStatus = 'pending' | 'in_progress' | 'done'
+export type TaskPriority = 'low' | 'medium' | 'high'
+
+export interface Task {
+  id: string
+  organization_id: string
+  name: string
+  description: string | null
+  status: TaskStatus
+  priority: TaskPriority
+  responsible_id: string | null
+  team_id: string | null
+  contact_id: string | null
+  deal_id: string | null
+  due_date: string | null
+  attachment_urls: string[]
+  created_at: string
+  responsible: {
+    id: string
+    name: string
+    avatar_url: string | null
+  } | null
+  contact: {
+    id: string
+    name: string
+    phone: string | null
+  } | null
+}
+
 export type ContactType = 'PF' | 'PJ'
 export type ContactCreatedByType = 'user' | 'automation'
 

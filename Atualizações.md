@@ -5,11 +5,6 @@ Add responsável do card
 Add setor do card
 Criar campos personalizados
 
-# Desenvolver
-## Dashboard
-Abas: Negócios | Atendimentos | Tarefas
-KPIs e gráficos de todos os modulos
-
 ## Contatos
 Nome
 Telefone
@@ -23,6 +18,12 @@ Criado por [Usuário||Automação]
 Responsável [Usuário]
 Produtos: histórico de produtos comprados
 Negócios vinculados
+
+# Desenvolver
+## Dashboard
+Abas: Negócios | Atendimentos | Tarefas
+KPIs e gráficos de todos os modulos
+
 
 ## Tarefas
 Nome
